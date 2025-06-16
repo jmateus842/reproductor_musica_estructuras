@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.canvas.*?>
+
+<BorderPane styleClass="main-background" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matga.proyecto_reproductor_music.PrimaryController">
+   <!-- Contenedor principal que imita el diseño de Winamp -->
+   <center>
+      <SplitPane fx:id="mainSplitPane" dividerPositions="0.4" orientation="VERTICAL" styleClass="winamp-container">
+         <!-- Panel superior: Reproductor principal -->
+         <BorderPane styleClass="player-panel" prefHeight="150">
+            <top>
+               <HBox spacing="5" styleClass="title-bar">
+                  <Label text="M" styleClass="winamp-icon"/>
+                  <Label text="MATGA PLAYER" styleClass="winamp-title"/>
+                  <Region HBox.hgrow="ALWAYS" />
+               </HBox>
+            </top>
+            <center>
+                <VBox spacing="10" styleClass="player-content-container">
+                    <padding>
+                        <Insets top="8" right="12" bottom="8" left="12"/>
+                    </padding>
+                    <!-- Top section with song info and visualizer -->
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <!-- Left side: Visualizer and time -->
+                        <VBox spacing="6" alignment="CENTER" styleClass="time-visualizer-container">
+                            <Label fx:id="tiempoLabel" text="00:03" styleClass="time-display"/>
+                            <StackPane>
+                                <Rectangle fx:id="visualizerRect" width="120" height="40" styleClass="visualizer"/>
+                                <Canvas fx:id="visualizerCanvas" width="120" height="40" styleClass="visualizer-canvas"/>
+                            </StackPane>
+                        </VBox>
+                        <!-- Right side: Song title and progress -->
+                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="5">
+                                <Label fx:id="songTitleLabel" text="DJ MIKE LLAMA - LLAMA WHIPPI" styleClass="song-title" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="songDurationLabel" text="03:45" styleClass="duration-display"/>
+                            </HBox>
+                            <HBox spacing="5" alignment="CENTER_LEFT">
+                                <Slider fx:id="progressSlider" HBox.hgrow="ALWAYS"/>
+                            </HBox>
+                            <!-- Bitrate info -->
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="128 kbps" styleClass="info-text"/>
+                                <Label text="44 kHz" styleClass="info-text"/>
+                                <Label text="stereo" styleClass="info-text"/>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                    <!-- Volume control -->
+                    <HBox spacing="8" alignment="CENTER_LEFT" styleClass="volume-container">
+                        <Label text="VOL" styleClass="control-label"/>
+                        <Slider fx:id="volumeSlider" prefWidth="80" styleClass="volume-slider"/>
+                        <Label text="BAL" styleClass="control-label"/>
+                        <Slider fx:id="balanceSlider" prefWidth="80" styleClass="balance-slider"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label text="EQ" styleClass="control-label"/>
+                        <Button text="AUTO" styleClass="eq-button"/>
+                    </HBox>
+                    
+                    <!-- Bottom section with controls -->
+                    <HBox spacing="6" alignment="CENTER" styleClass="controls-container">
+                        <Button fx:id="prevButton" text="|◀◀" styleClass="control-button"/>
+                        <Button fx:id="playButton" text="▶" styleClass="control-button main-control"/>
+                        <Button fx:id="pauseButton" text="||" styleClass="control-button main-control"/>
+                        <Button fx:id="stopButton" text="■" styleClass="control-button main-control"/>
+                        <Button fx:id="nextButton" text="▶▶|" styleClass="control-button"/>
+                        <Button fx:id="ejectButton" text="^" styleClass="control-button"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="shuffleButton" text="SHUFFLE" styleClass="option-button"/>
+                        <Button fx:id="repeatButton" text="REPEAT" styleClass="option-button"/>
+                        <Button fx:id="togglePlaylistButton" onAction="#togglePlaylist" text="PL" styleClass="option-button playlist-toggle-button"/>
+                    </HBox>
+                </VBox>
+            </center>
+         </BorderPane>
+         
+         
+         <!-- Panel inferior: Lista de reproducción -->
+         <BorderPane fx:id="playlistPane" styleClass="playlist-panel">
+            <top>
+               <HBox styleClass="section-title-bar">
+                  <Label text="MATGA PLAYLIST" styleClass="section-title"/>
+                  <Region HBox.hgrow="ALWAYS" />
+               </HBox>
+            </top>
+            <center>
+               <TableView fx:id="playlistTable" styleClass="playlist-table">
+                  <columns>
+                     <TableColumn fx:id="numColumn" text="#" prefWidth="40"/>
+                     <TableColumn fx:id="titleColumn" text="Titulo" prefWidth="300"/>
+                     <TableColumn fx:id="lengthColumn" text="Duracion" prefWidth="60"/>
+                     <TableColumn fx:id="formatColumn" text="Formato" prefWidth="60"/>
+                  </columns>
+                  <placeholder>
+                     <Label text="Sin canciones" styleClass="playlist-placeholder"/>
+                  </placeholder>
+               </TableView>
+            </center>
+            <bottom>
+               <HBox spacing="5" alignment="CENTER" styleClass="playlist-controls">
+                  <Button text="ADD" styleClass="playlist-button" fx:id="addButton"/>
+                  <Button text="REM" styleClass="playlist-button" fx:id="removeButton"/>
+                  <Button text="SEL" styleClass="playlist-button" fx:id="selectButton"/>
+                  <Button text="SORT" styleClass="playlist-button" fx:id="sortButton"/>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Label fx:id="playlistTimeLabel" text="1:00/12:16" styleClass="playlist-time"/>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Label text="MISC" styleClass="playlist-button" fx:id="miscButton"/>
+               </HBox>
+            </bottom>
+         </BorderPane>
+      </SplitPane>
+   </center>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</BorderPane>

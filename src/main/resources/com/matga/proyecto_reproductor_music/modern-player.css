@@ -1,0 +1,673 @@
+/* 
+ * MATGA PLAYER - MODERN STYLE
+ * Diseno moderno inspirado en reproductores de musica contemporaneos
+ */
+
+.root {
+    background-color: #121212;
+    -fx-background-color: #121212;
+    font-family: "Segoe UI", sans-serif;
+    -fx-font-family: "Segoe UI", sans-serif;
+
+    /* Lookup variables accessibles en toda la escena */
+    -background-color: #121212;
+    -component-color: #181818;
+    -elevated-component: #282828;
+    -divider-color: #333333;
+    -accent-color: #1DB954;
+    -secondary-accent: #636363;
+    -progress-bar-bg: #535353;
+    -primary-text: #FFFFFF;
+    -secondary-text: #B3B3B3;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* ---- Color helper classes ---- */
+.label {
+    -fx-text-fill: #FFFFFF;
+}
+
+.primary-text {
+    -fx-text-fill: #FFFFFF;
+}
+
+.secondary-text {
+    -fx-text-fill: #B3B3B3;
+}
+
+.accent-text {
+    -fx-text-fill: #1DB954;
+}
+
+/* Contenedor principal */
+.main-container {
+    -fx-background-color: #121212;
+    -fx-padding: 8px;
+}
+
+/* SplitPane que contiene el reproductor y la playlist */
+.split-pane {
+    -fx-background-color: #121212;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.split-pane:horizontal > .split-pane-divider,
+.split-pane:vertical > .split-pane-divider {
+    -fx-background-color: #333333;
+    -fx-padding: 0 1px 0 1px;
+}
+
+/* Panel del Reproductor */
+.player-panel {
+    -fx-background-color: #181818;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 2);
+}
+
+/* Barra de titulo */
+.title-bar {
+    -fx-background-color: #282828;
+    -fx-background-radius: 8px 8px 0 0;
+    -fx-padding: 12px 16px;
+    -fx-alignment: center-left;
+    -fx-spacing: 8px;
+}
+
+.app-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Contenido principal del reproductor */
+.player-content {
+    -fx-padding: 16px;
+    -fx-spacing: 16px;
+}
+
+/* Portada del album y visualizador */
+.album-art-container {
+    -fx-background-color: #282828;
+    -fx-background-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 1);
+}
+
+.album-art {
+    -fx-background-radius: 4px;
+}
+
+/* Visualizador */
+.visualizer {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-background-radius: 4px;
+}
+
+/* Informacion de la cancion */
+.song-info {
+    -fx-spacing: 8px;
+}
+
+.song-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.artist-name {
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 14px;
+}
+
+/* Control de progreso */
+.progress-container {
+    -fx-spacing: 8px;
+}
+
+.time-label {
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 12px;
+}
+
+.progress-slider .track {
+    -fx-background-color: #535353;
+    -fx-background-radius: 2px;
+    -fx-pref-height: 4px;
+}
+
+.progress-slider .thumb {
+    -fx-background-color: #1DB954;
+    -fx-background-radius: 6px;
+    -fx-pref-height: 12px;
+    -fx-pref-width: 12px;
+}
+
+/* Metadata */
+.metadata-info {
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 12px;
+    -fx-spacing: 10px;
+    -fx-padding: 2px 0;
+}
+
+.metadata-item {
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 12px;
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 4px;
+    -fx-padding: 2px 8px;
+}
+
+/* Controles de reproducción */
+.playback-controls {
+    -fx-alignment: center;
+    -fx-spacing: 16px;
+    -fx-padding: 8px 0;
+}
+
+/* Botones de reproducción */
+.playback-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 16px;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+    -fx-cursor: hand;
+    -fx-padding: 6px;
+    -fx-background-radius: 16px;
+}
+
+.playback-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: white;
+}
+
+/* Botón principal (Play/Pause) */
+.main-playback-button {
+    -fx-background-color: #1DB954;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-background-radius: 24px;
+}
+
+.main-playback-button:hover {
+    -fx-background-color: #23d160;
+    -fx-text-fill: black;
+}
+
+/* Control de volumen */
+.volume-container {
+    -fx-spacing: 8px;
+    -fx-alignment: center;
+}
+
+.volume-slider .track {
+    -fx-background-color: #535353;
+    -fx-background-radius: 2px;
+    -fx-pref-height: 4px;
+}
+
+.volume-slider .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 6px;
+    -fx-pref-height: 10px;
+    -fx-pref-width: 10px;
+}
+
+.volume-icon {
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 16px;
+}
+
+/* Botones de opciones adicionales */
+.option-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 12px;
+    -fx-padding: 6px 12px;
+    -fx-cursor: hand;
+    -fx-background-radius: 16px;
+}
+
+.option-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: white;
+}
+
+.option-button.active {
+    -fx-text-fill: #1DB954;
+}
+
+/* Panel de lista de reproducción */
+.playlist-panel {
+    -fx-background-color: #181818;
+    -fx-background-radius: 6px;
+}
+
+.playlist-header {
+    -fx-background-color: #282828;
+    -fx-background-radius: 8px 8px 0 0;
+    -fx-padding: 12px 16px;
+}
+
+.playlist-title {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Tabla de lista de reproducción */
+.playlist-table {
+    -fx-background-color: #181818;
+    -fx-background-radius: 0 0 8px 8px;
+}
+
+.playlist-table .column-header-background {
+    -fx-background-color: #181818;
+}
+
+.playlist-table .column-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 12px;
+    -fx-padding: 10px;
+    -fx-border-color: transparent transparent #333333 transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.playlist-table .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-pref-height: 40px;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.05) transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.playlist-table .table-row-cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.playlist-table .table-row-cell:selected {
+    -fx-background-color: rgba(29, 185, 84, 0.2);
+}
+
+.playlist-table .table-cell {
+    -fx-text-fill: white;
+    -fx-alignment: center-left;
+    -fx-padding: 0 10px;
+    -fx-border-color: transparent;
+}
+
+.playlist-table .placeholder {
+    -fx-text-fill: #B3B3B3;
+}
+
+/* Controles de playlist */
+.playlist-controls {
+    -fx-background-color: #282828;
+    -fx-background-radius: 0 0 8px 8px;
+    -fx-padding: 10px 16px;
+    -fx-spacing: 8px;
+}
+
+.playlist-button {
+    -fx-background-color: #535353;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 6px 12px;
+    -fx-cursor: hand;
+    -fx-background-radius: 4px;
+}
+
+.playlist-button:hover {
+    -fx-background-color: #636363;
+}
+
+/* Informacion de playlist */
+.playlist-info {
+    -fx-text-fill: #B3B3B3;
+    -fx-font-size: 12px;
+}
+
+/* Split Pane que contiene el reproductor y la playlist */
+.split-pane {
+    -fx-background-color: -background-color;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.split-pane:horizontal > .split-pane-divider,
+.split-pane:vertical > .split-pane-divider {
+    -fx-background-color: -divider-color;
+    -fx-padding: 0 1px 0 1px;
+}
+
+/* Panel del Reproductor */
+.player-panel {
+    -fx-background-color: -component-color;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 2);
+    -fx-padding: 0;
+}
+
+/* Barra de titulo */
+.title-bar {
+    -fx-background-color: -elevated-component;
+    -fx-background-radius: 8px 8px 0 0;
+    -fx-padding: 12px 16px;
+    -fx-alignment: center-left;
+    -fx-spacing: 8px;
+}
+
+.app-title {
+    -fx-text-fill: -primary-text;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Contenido principal del reproductor */
+.player-content {
+    -fx-padding: 16px;
+    -fx-spacing: 16px;
+}
+
+/* Portada del album y visualizador */
+.album-art-container {
+    -fx-background-color: -elevated-component;
+    -fx-background-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 1);
+}
+
+.album-art {
+    -fx-background-radius: 4px;
+}
+
+/* Visualizador */
+.visualizer {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-background-radius: 4px;
+}
+
+/* Informacion de la cancion */
+.song-info {
+    -fx-spacing: 8px;
+}
+
+.song-title {
+    -fx-text-fill: -primary-text;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.artist-name {
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 14px;
+}
+
+/* Control de progreso */
+.progress-container {
+    -fx-spacing: 8px;
+}
+
+.progress-slider .track {
+    -fx-background-color: -progress-bar-bg;
+    -fx-background-radius: 2px;
+    -fx-pref-height: 4px;
+}
+
+.progress-slider .thumb {
+    -fx-background-color: -accent-color;
+    -fx-background-radius: 6px;
+    -fx-pref-height: 12px;
+    -fx-pref-width: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 0);
+}
+
+.progress-slider:hover .thumb {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 4, 0, 0, 0);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Tiempo */
+.time-label {
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 12px;
+}
+
+/* Controles de reproducción */
+.playback-controls {
+    -fx-alignment: center;
+    -fx-spacing: 16px;
+    -fx-padding: 8px 0;
+}
+
+/* Botones de reproducción */
+.playback-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 16px;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+    -fx-cursor: hand;
+    -fx-padding: 6px;
+    -fx-background-radius: 16px;
+}
+
+.playback-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: -primary-text;
+}
+
+/* Botón principal (Play/Pause) */
+.main-playback-button {
+    -fx-background-color: -accent-color;
+    -fx-text-fill: #000000;
+    -fx-font-size: 20px;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-background-radius: 24px;
+}
+
+.main-playback-button:hover {
+    -fx-background-color: derive(-accent-color, 10%);
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow(gaussian, rgba(29, 185, 84, 0.3), 8, 0, 0, 0);
+}
+
+/* Control de volumen */
+.volume-container {
+    -fx-spacing: 8px;
+    -fx-alignment: center;
+}
+
+.volume-slider .track {
+    -fx-background-color: -progress-bar-bg;
+    -fx-background-radius: 2px;
+    -fx-pref-height: 4px;
+}
+
+.volume-slider .thumb {
+    -fx-background-color: -primary-text;
+    -fx-background-radius: 6px;
+    -fx-pref-height: 10px;
+    -fx-pref-width: 10px;
+}
+
+.volume-icon {
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 16px;
+}
+
+/* Botones de opciones adicionales */
+.option-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 12px;
+    -fx-padding: 6px 12px;
+    -fx-cursor: hand;
+    -fx-background-radius: 16px;
+}
+
+.option-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: -primary-text;
+}
+
+.option-button.active {
+    -fx-text-fill: -accent-color;
+}
+
+/* Panel de lista de reproducción */
+.playlist-panel {
+    -fx-background-color: -component-color;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 2);
+}
+
+.playlist-header {
+    -fx-background-color: -elevated-component;
+    -fx-background-radius: 8px 8px 0 0;
+    -fx-padding: 12px 16px;
+}
+
+.playlist-title {
+    -fx-text-fill: -primary-text;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Tabla de lista de reproducción */
+.playlist-table {
+    -fx-background-color: -component-color;
+    -fx-background-radius: 0 0 8px 8px;
+}
+
+.playlist-table .column-header-background {
+    -fx-background-color: -component-color;
+}
+
+.playlist-table .column-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-padding: 10px;
+    -fx-border-color: transparent transparent -divider-color transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.playlist-table .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -primary-text;
+    -fx-padding: 0;
+    -fx-pref-height: 40px;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.05) transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.playlist-table .table-row-cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.playlist-table .table-row-cell:selected {
+    -fx-background-color: rgba(29, 185, 84, 0.2);
+}
+
+.playlist-table .table-row-cell:playing {
+    -fx-background-color: rgba(29, 185, 84, 0.1);
+}
+
+.playlist-table .table-cell {
+    -fx-text-fill: -primary-text;
+    -fx-alignment: center-left;
+    -fx-padding: 0 10px;
+    -fx-border-color: transparent;
+}
+
+.playlist-table .placeholder {
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 14px;
+}
+
+/* Controles de playlist */
+.playlist-controls {
+    -fx-background-color: -elevated-component;
+    -fx-background-radius: 0 0 8px 8px;
+    -fx-padding: 10px 16px;
+    -fx-spacing: 8px;
+}
+
+.playlist-button {
+    -fx-background-color: -secondary-accent;
+    -fx-text-fill: -primary-text;
+    -fx-font-size: 12px;
+    -fx-padding: 6px 12px;
+    -fx-cursor: hand;
+    -fx-background-radius: 4px;
+}
+
+.playlist-button:hover {
+    -fx-background-color: derive(-secondary-accent, 10%);
+}
+
+/* Informacion de playlist */
+.playlist-info {
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 12px;
+}
+
+/* Scrollbar personalizado */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 10px;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -secondary-accent;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: derive(-secondary-accent, 10%);
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+/* Estilos para informacion de metadatos */
+.metadata-info {
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 12px;
+    -fx-spacing: 10px;
+    -fx-padding: 2px 0;
+}
+
+.metadata-item {
+    -fx-text-fill: -secondary-text;
+    -fx-font-size: 12px;
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 4px;
+    -fx-padding: 2px 8px;
+}

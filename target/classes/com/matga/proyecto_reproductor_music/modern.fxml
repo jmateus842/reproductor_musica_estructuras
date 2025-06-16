@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane styleClass="main-container" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matga.proyecto_reproductor_music.PrimaryController">
+    <center>
+        <SplitPane fx:id="mainSplitPane" dividerPositions="0.6" orientation="VERTICAL" styleClass="split-pane">
+            <!-- Panel Superior: Reproductor -->
+            <BorderPane styleClass="player-panel">
+                <top>
+                    <HBox styleClass="title-bar">
+                        <Label text="MATGA PLAYER" styleClass="app-title"/>
+                    </HBox>
+                </top>
+                <center>
+                    <VBox styleClass="player-content">
+                        <!-- Sección superior: Portada del álbum y visualizador -->
+                        <HBox spacing="16">
+                            <!-- Portada del álbum y visualizador -->
+                            <StackPane styleClass="album-art-container" prefWidth="180" prefHeight="180">
+                                <ImageView fx:id="albumCoverView" fitWidth="180" fitHeight="180" preserveRatio="true">
+                                    <Image fx:id="defaultAlbumImage" url="@images/music-icon.png"/>
+                                </ImageView>
+                                <StackPane fx:id="visualizerContainer" styleClass="visualizer" prefWidth="180" prefHeight="180" visible="false">
+                                    <Canvas fx:id="visualizerCanvas" width="180" height="180"/>
+                                    <Label fx:id="tiempoLabel" text="00:00" styleClass="time-label" style="-fx-font-size: 32px; -fx-text-fill: white;"/>
+                                </StackPane>
+                            </StackPane>
+                            
+                            <!-- Información de la canción y controles -->
+                            <VBox spacing="16" HBox.hgrow="ALWAYS">
+                                <!-- Información de la canción -->
+                                <VBox styleClass="song-info">
+                                    <Label fx:id="songTitleLabel" text="Selecciona una cancion" styleClass="song-title"/>
+                                    <Label fx:id="artistLabel" text="Artista" styleClass="artist-name"/>
+                                </VBox>
+                                
+                                <!-- Barra de progreso -->
+                                <VBox styleClass="progress-container">
+                                    <HBox>
+                                        <Label fx:id="currentTimeLabel" text="0:00" styleClass="time-label"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="songDurationLabel" text="0:00" styleClass="time-label"/>
+                                    </HBox>
+                                    <Slider fx:id="progressSlider" styleClass="progress-slider"/>
+                                </VBox>
+                                
+                                <!-- Metadata -->
+                                <HBox styleClass="metadata-info">
+                                    <Label fx:id="bitrateLabel" text="128 kbps" styleClass="metadata-item"/>
+                                    <Label fx:id="frequencyLabel" text="44 kHz" styleClass="metadata-item"/>
+                                    <Label fx:id="channelsLabel" text="stereo" styleClass="metadata-item"/>
+                                </HBox>
+                                
+                                <!-- Controles de reproducción -->
+                                <HBox styleClass="playback-controls">
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Button fx:id="prevButton" text="⏮" styleClass="playback-button"/>
+                                    <Button fx:id="playButton" text="▶" styleClass="main-playback-button"/>
+                                    <Button fx:id="pauseButton" text="⏸" styleClass="main-playback-button" visible="false"/>
+                                    <Button fx:id="stopButton" text="⏹" styleClass="playback-button" onAction="#stopReproduccion"/>
+                                    <Button fx:id="nextButton" text="⏭" styleClass="playback-button"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                </HBox>
+                                
+                                <!-- Control de volumen -->
+                                <HBox styleClass="volume-container">
+                                    <Label text="🔊" styleClass="volume-icon"/>
+                                    <Slider fx:id="volumeSlider" styleClass="volume-slider" HBox.hgrow="ALWAYS"/>
+                                </HBox>
+                                
+                                <!-- Botones de opciones -->
+                                <HBox spacing="10">
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Button fx:id="shuffleButton" text="🔀" styleClass="option-button"/>
+                                    <Button fx:id="repeatButton" text="🔁" styleClass="option-button"/>
+                                    <Button fx:id="ejectButton" text="💿" styleClass="option-button"/>
+                                    <Button fx:id="togglePlaylistButton" onAction="#togglePlaylist" text="📋" styleClass="option-button"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </center>
+            </BorderPane>
+            
+            <!-- Panel Inferior: Lista de reproducción -->
+            <BorderPane fx:id="playlistPane" styleClass="playlist-panel">
+                <top>
+                    <ToolBar>
+                        <Label text="PLAYLIST" styleClass="playlist-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="⏮" onAction="#anterior" styleClass="control-button"/>
+                        <Button fx:id="playPauseButton" text="▶" onAction="#togglePlayPause" styleClass="control-button play-button"/>
+                        <Button text="⏭" onAction="#siguiente" styleClass="control-button"/>
+                    </ToolBar>
+                </top>
+                <center>
+                    <ListView fx:id="playlistView" styleClass="playlist-view">
+                        <placeholder>
+                            <Label text="Sin canciones" styleClass="playlist-placeholder"/>
+                        </placeholder>
+                    </ListView>
+                </center>
+                <bottom>
+                    <HBox styleClass="playlist-controls">
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="playlistTimeLabel" text="00:00 / 00:00" styleClass="playlist-info"/>
+                    </HBox>
+                </bottom>
+            </BorderPane>
+        </SplitPane>
+    </center>
+</BorderPane>
