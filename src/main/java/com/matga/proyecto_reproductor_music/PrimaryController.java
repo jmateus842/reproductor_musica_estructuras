@@ -19,6 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,7 +43,10 @@ public class PrimaryController {
     private Label artistLabel;
     
     @FXML
-    private Button playPauseButton;
+    private Button playButton;
+    
+    @FXML
+    private Button pauseButton;
     
     @FXML
     private Slider progressSlider;
@@ -54,6 +59,12 @@ public class PrimaryController {
     
     @FXML
     private Label songDurationLabel;
+    
+    @FXML
+    private Label tiempoLabel;
+    
+    @FXML
+    private ImageView albumCoverImageView;
     
     private Playlist playlist;
     private boolean isPlaying = false;
@@ -143,7 +154,24 @@ public class PrimaryController {
             artistLabel.setText("Artista desconocido");
             
             // Actualizar el tiempo total de la canción
-            songDurationLabel.setText(formatTime(cancion.getDuracionTotal()));
+            double duracionTotal = cancion.getDuracionTotal();
+            songDurationLabel.setText(formatTime(duracionTotal));
+            
+            // Actualizar tambien la etiqueta de tiempo en el visualizador
+            tiempoLabel.setText(formatTime(duracionTotal));
+            
+            // Por ahora usamos la imagen por defecto para todas las canciones
+            // En una implementación más avanzada, se podría extraer la carátula de los metadatos MP3
+            try {
+                // Intentar cargar la imagen desde los recursos
+                Image defaultCover = new Image(getClass().getResourceAsStream("/com/matga/proyecto_reproductor_music/images/radio_canela.png"));
+                albumCoverImageView.setImage(defaultCover);
+            } catch (Exception e) {
+                System.err.println("Error al cargar la imagen de caratula: " + e.getMessage());
+            }
+            
+            // Forzar una actualizacion inmediata de la barra de progreso
+            actualizarBarraProgreso();
         }
     }
     
@@ -155,9 +183,19 @@ public class PrimaryController {
     
     private void actualizarBarraProgreso() {
         if (cancionActual != null && !isSeeking.get()) {
-            double progreso = cancionActual.getTiempoActual() / cancionActual.getDuracionTotal();
-            progressSlider.setValue(progreso * 100);
-            currentTimeLabel.setText(formatTime(cancionActual.getTiempoActual()));
+            double tiempoActual = cancionActual.getTiempoActual();
+            double duracionTotal = cancionActual.getDuracionTotal();
+            
+            // Actualizar la barra de progreso
+            if (duracionTotal > 0) {
+                progressSlider.setValue((tiempoActual / duracionTotal) * 100);
+            } else {
+                progressSlider.setValue(0);
+            }
+            
+            // Actualizar etiquetas de tiempo
+            currentTimeLabel.setText(formatTime(tiempoActual));
+            tiempoLabel.setText(formatTime(duracionTotal));
         }
     }
     
@@ -176,17 +214,44 @@ public class PrimaryController {
             }
             reproducirCancion(index);
         } else if (isPlaying) {
-            // Pausar la reproducción
-            cancionActual.pause();
-            timeline.pause();
-            isPlaying = false;
-            playPauseButton.setText("▶");
+            pauseMusic();
         } else {
-            // Reanudar la reproducción
+            playMusic();
+        }
+    }
+    
+    /**
+     * Inicia o reanuda la reproduccion de la cancion actual.
+     */
+    @FXML
+    private void playMusic() {
+        if (cancionActual != null) {
             cancionActual.play();
             timeline.play();
             isPlaying = true;
-            playPauseButton.setText("⏸");
+            
+            // Actualizar opacidad de botones
+            playButton.setOpacity(0.3);
+            pauseButton.setOpacity(1.0);
+        } else {
+            // Si no hay canción actual, intentar reproducir la seleccionada
+            togglePlayPause();
+        }
+    }
+    
+    /**
+     * Pausa la reproduccion de la cancion actual.
+     */
+    @FXML
+    private void pauseMusic() {
+        if (cancionActual != null && isPlaying) {
+            cancionActual.pause();
+            timeline.pause();
+            isPlaying = false;
+            
+            // Actualizar opacidad de botones
+            playButton.setOpacity(1.0);
+            pauseButton.setOpacity(0.3);
         }
     }
     
@@ -252,6 +317,25 @@ public class PrimaryController {
     }
     
     /**
+     * Detiene la reproduccion actual y reinicia la cancion al principio.
+     */
+    @FXML
+    private void stopReproduccion() {
+        if (cancionActual != null) {
+            // Detener la reproducción
+            cancionActual.stop();
+            timeline.stop();
+            isPlaying = false;
+            
+            // Actualizar la interfaz
+            playButton.setOpacity(1.0);
+            pauseButton.setOpacity(0.3);
+            progressSlider.setValue(0);
+            currentTimeLabel.setText("0:00");
+        }
+    }
+    
+    /**
      * Reproduce la canción en el índice especificado.
      * @param index Índice de la canción en la playlist
      */
@@ -276,7 +360,10 @@ public class PrimaryController {
             // Reproducir la canción
             cancionActual.play();
             isPlaying = true;
-            playPauseButton.setText("⏸");
+            
+            // Actualizar opacidad de botones
+            playButton.setOpacity(0.3);
+            pauseButton.setOpacity(1.0);
             
             // Actualizar la información de la canción en la interfaz
             actualizarInfoCancion(cancionActual);

@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.shape.*?>
-<?import javafx.scene.geometry.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.image.*?>
@@ -24,11 +24,12 @@
                         <HBox spacing="16">
                             <!-- Portada del álbum y visualizador -->
                             <StackPane styleClass="album-art-container" prefWidth="180" prefHeight="180">
-                                <ImageView fx:id="albumCoverView" fitWidth="180" fitHeight="180" preserveRatio="true">
-                                    <Image fx:id="defaultAlbumImage" url="@images/music-icon.png"/>
-                                </ImageView>
-                                <StackPane fx:id="visualizerContainer" styleClass="visualizer" prefWidth="180" prefHeight="180" visible="false">
-                                    <Canvas fx:id="visualizerCanvas" width="180" height="180"/>
+                                <Rectangle styleClass="album-art" width="180" height="180"/>
+                                <StackPane fx:id="visualizerContainer" styleClass="visualizer" prefWidth="180" prefHeight="180">
+                                    <ImageView fx:id="albumCoverImageView" fitWidth="180" fitHeight="180" preserveRatio="true">
+                                        <!-- Imagen por defecto cuando no hay carátula -->
+                                        <Image url="@images/radio_canela.png"/>
+                                    </ImageView>
                                     <Label fx:id="tiempoLabel" text="00:00" styleClass="time-label" style="-fx-font-size: 32px; -fx-text-fill: white;"/>
                                 </StackPane>
                             </StackPane>
@@ -59,13 +60,13 @@
                                 </HBox>
                                 
                                 <!-- Controles de reproducción -->
-                                <HBox styleClass="playback-controls">
+                                <HBox styleClass="playback-controls" spacing="20">
                                     <Region HBox.hgrow="ALWAYS"/>
-                                    <Button fx:id="prevButton" text="⏮" styleClass="playback-button"/>
-                                    <Button fx:id="playButton" text="▶" styleClass="main-playback-button"/>
-                                    <Button fx:id="pauseButton" text="⏸" styleClass="main-playback-button" visible="false"/>
+                                    <Button fx:id="prevButton" text="⏮" styleClass="playback-button" onAction="#anterior"/>
+                                    <Button fx:id="playButton" text="▶" styleClass="main-playback-button" onAction="#playMusic" opacity="1.0"/>
+                                    <Button fx:id="pauseButton" text="⏸" styleClass="main-playback-button" onAction="#pauseMusic" opacity="0.3"/>
                                     <Button fx:id="stopButton" text="⏹" styleClass="playback-button" onAction="#stopReproduccion"/>
-                                    <Button fx:id="nextButton" text="⏭" styleClass="playback-button"/>
+                                    <Button fx:id="nextButton" text="⏭" styleClass="playback-button" onAction="#siguiente"/>
                                     <Region HBox.hgrow="ALWAYS"/>
                                 </HBox>
                                 
@@ -95,9 +96,6 @@
                     <ToolBar>
                         <Label text="PLAYLIST" styleClass="playlist-title"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Button text="⏮" onAction="#anterior" styleClass="control-button"/>
-                        <Button fx:id="playPauseButton" text="▶" onAction="#togglePlayPause" styleClass="control-button play-button"/>
-                        <Button text="⏭" onAction="#siguiente" styleClass="control-button"/>
                     </ToolBar>
                 </top>
                 <center>
