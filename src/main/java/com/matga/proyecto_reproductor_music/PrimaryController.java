@@ -80,7 +80,7 @@ public class PrimaryController {
     private void initialize() {
         cargarCanciones();
         configurarEventos();
-        // No further initialization needed here as random song will be played in cargarCanciones()
+        // No se necesita inicializacion adicional ya que se reproducira una cancion aleatoria en cargarCanciones()
     }
     
     private void cargarCanciones() {
@@ -89,34 +89,34 @@ public class PrimaryController {
             String projectPath = System.getProperty("user.dir");
             File musicDir = new File(projectPath, "musica");
             
-            System.out.println("Buscando música en: " + musicDir.getAbsolutePath());
+            System.out.println("Buscando musica en: " + musicDir.getAbsolutePath());
             
             if (musicDir.exists() && musicDir.isDirectory()) {
                 playlist = CargadorCanciones.cargarPlaylistDesdeCarpeta(musicDir.getAbsolutePath());
                 
-                // Actualizar la vista de la lista de reproducción
+                // Actualizar la vista de la lista de reproduccion
                 Platform.runLater(() -> {
                     playlistView.getItems().clear();
                     for (Cancion cancion : playlist) {
                         playlistView.getItems().add(cancion);
                     }
                     
-                    // Seleccionar y reproducir una canción aleatoria si existe
+                    // Seleccionar y reproducir una cancion aleatoria si existe
                     if (!playlist.estaVacia()) {
                         int total = playlist.getTotalCanciones();
                         int randomIndex = (int) (Math.random() * total);
                         playlistView.getSelectionModel().select(randomIndex);
                         reproducirCancion(randomIndex);
-                        System.out.println("Reproduciendo canción aleatoria: " + randomIndex);
+                        System.out.println("Reproduciendo cancion aleatoria: " + randomIndex);
                     }
                 });
             } else {
-                System.err.println("No se pudo encontrar la carpeta de música en: " + musicDir.getAbsolutePath());
+                System.err.println("No se pudo encontrar la carpeta de musica en: " + musicDir.getAbsolutePath());
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText(null);
-                    alert.setContentText("No se encontró la carpeta de música en: " + musicDir.getAbsolutePath() + 
+                    alert.setContentText("No se encontro la carpeta de musica en: " + musicDir.getAbsolutePath() + 
                                       "\nPor favor, crea una carpeta llamada 'musica' con archivos MP3.");
                     alert.showAndWait();
                 });
@@ -134,10 +134,10 @@ public class PrimaryController {
     }
     
     private void configurarEventos() {
-        // Manejar selección de canción en la lista
+        // Manejar seleccion de cancion en la lista
         playlistView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                // Reproducir la canción seleccionada
+                // Reproducir la cancion seleccionada
                 int index = playlistView.getSelectionModel().getSelectedIndex();
                 reproducirCancion(index);
             }
@@ -164,7 +164,7 @@ public class PrimaryController {
             isSeeking.set(false);
         });
         
-        // Inicializar la línea de tiempo para actualizar la barra de progreso
+        // Inicializar la linea de tiempo para actualizar la barra de progreso
         timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> actualizarBarraProgreso()));
         timeline.setCycleCount(Animation.INDEFINITE);
     }
@@ -174,7 +174,7 @@ public class PrimaryController {
             songTitleLabel.setText(cancion.getTitulo());
             artistLabel.setText("Artista desconocido");
             
-            // Actualizar el tiempo total de la canción
+            // Actualizar el tiempo total de la cancion
             double duracionTotal = cancion.getDuracionTotal();
             songDurationLabel.setText(formatTime(duracionTotal));
             
@@ -182,7 +182,7 @@ public class PrimaryController {
             tiempoLabel.setText(formatTime(duracionTotal));
             
             // Por ahora usamos la imagen por defecto para todas las canciones
-            // En una implementación más avanzada, se podría extraer la carátula de los metadatos MP3
+            // En una implementacion mas avanzada, se podria extraer la caratula de los metadatos MP3
             try {
                 // Intentar cargar la imagen desde los recursos
                 Image defaultCover = new Image(getClass().getResourceAsStream("/com/matga/proyecto_reproductor_music/images/radio_canela.png"));
@@ -227,7 +227,7 @@ public class PrimaryController {
         }
         
         if (cancionActual == null) {
-            // Si no hay canción reproduciéndose, comenzar con la seleccionada o la primera
+            // Si no hay cancion reproduciendose, comenzar con la seleccionada o la primera
             int index = playlistView.getSelectionModel().getSelectedIndex();
             if (index < 0) {
                 index = 0;
@@ -255,7 +255,7 @@ public class PrimaryController {
             playButton.setOpacity(0.3);
             pauseButton.setOpacity(1.0);
         } else {
-            // Si no hay canción actual, intentar reproducir la seleccionada
+            // Si no hay cancion actual, intentar reproducir la seleccionada
             togglePlayPause();
         }
     }
@@ -282,16 +282,16 @@ public class PrimaryController {
             return;
         }
         
-        // Detener la reproducción actual
+        // Detener la reproduccion actual
         if (cancionActual != null) {
             cancionActual.stop();
             timeline.stop();
         }
         
-        // Ir a la canción anterior
+        // Ir a la cancion anterior
         Cancion anterior = playlist.anterior();
         if (anterior != null) {
-            // Actualizar la selección en la lista
+            // Actualizar la seleccion en la lista
             int index = playlistView.getItems().indexOf(anterior);
             if (index >= 0) {
                 playlistView.getSelectionModel().select(index);
@@ -306,16 +306,16 @@ public class PrimaryController {
             return;
         }
         
-        // Detener la reproducción actual
+        // Detener la reproduccion actual
         if (cancionActual != null) {
             cancionActual.stop();
             timeline.stop();
         }
         
-        // Ir a la siguiente canción
+        // Ir a la siguiente cancion
         Cancion siguiente = playlist.siguiente();
         if (siguiente != null) {
-            // Actualizar la selección en la lista
+            // Actualizar la seleccion en la lista
             int index = playlistView.getItems().indexOf(siguiente);
             if (index >= 0) {
                 playlistView.getSelectionModel().select(index);
@@ -343,7 +343,7 @@ public class PrimaryController {
     @FXML
     private void stopReproduccion() {
         if (cancionActual != null) {
-            // Detener la reproducción
+            // Detener la reproduccion
             cancionActual.stop();
             timeline.stop();
             isPlaying = false;
@@ -357,20 +357,20 @@ public class PrimaryController {
     }
     
     /**
-     * Reproduce la canción en el índice especificado.
-     * @param index Índice de la canción en la playlist
+     * Reproduce la cancion en el indice especificado.
+     * @param index Indice de la cancion en la playlist
      */
     private void reproducirCancion(int index) {
-        // Detener la reproducción actual si hay una canción sonando
+        // Detener la reproduccion actual si hay una cancion sonando
         if (cancionActual != null) {
             cancionActual.stop();
             timeline.stop();
         }
         
-        // Obtener la canción de la playlist
+        // Obtener la cancion de la playlist
         cancionActual = playlist.reproducir(index);
         if (cancionActual != null) {
-            // Configurar la canción para que pase a la siguiente al terminar
+            // Configurar la cancion para que pase a la siguiente al terminar
             cancionActual.setOnEndOfMedia(() -> {
                 Platform.runLater(() -> siguiente());
             });
@@ -378,7 +378,7 @@ public class PrimaryController {
             // Aplicar el volumen actual
             cancionActual.setVolumen(volumeSlider.getValue() / 100.0);
             
-            // Reproducir la canción
+            // Reproducir la cancion
             cancionActual.play();
             isPlaying = true;
             
@@ -386,10 +386,10 @@ public class PrimaryController {
             playButton.setOpacity(0.3);
             pauseButton.setOpacity(1.0);
             
-            // Actualizar la información de la canción en la interfaz
+            // Actualizar la informacion de la cancion en la interfaz
             actualizarInfoCancion(cancionActual);
             
-            // Iniciar la actualización de la barra de progreso
+            // Iniciar la actualizacion de la barra de progreso
             timeline.play();
         }
     }

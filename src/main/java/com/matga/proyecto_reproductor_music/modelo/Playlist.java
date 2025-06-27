@@ -150,8 +150,8 @@ public class Playlist implements Iterable<Cancion> {
     }
     
     /**
-     * Obtiene el índice de la canción actual en reproducción.
-     * @return Índice de la canción actual o -1 si no hay canción actual
+     * Obtiene el indice de la cancion actual en reproduccion.
+     * @return Indice de la cancion actual o -1 si no hay cancion actual
      */
     public int getCancionActualIndex() {
         return cancionActualIndex;

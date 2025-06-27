@@ -28,7 +28,7 @@ public class Cancion {
             this.media = new Media(file.toURI().toString());
             this.mediaPlayer = new MediaPlayer(media);
             
-            // Configurar el manejador para cuando termine la canción
+            // Configurar el manejador para cuando termine la cancion
             mediaPlayer.setOnEndOfMedia(() -> {
                 if (onEndOfMedia != null) {
                     onEndOfMedia.run();
@@ -66,7 +66,7 @@ public class Cancion {
         return rutaArchivo.hashCode();
     }
     
-    // Métodos para controlar la reproducción
+    // Metodos para controlar la reproduccion
     
     /**
      * Reproduce la cancion.
@@ -106,7 +106,7 @@ public class Cancion {
     }
     
     /**
-     * Establece la posición de reproducción actual.
+     * Establece la posicion de reproduccion actual.
      * @param segundos Tiempo en segundos
      */
     public void setTiempoReproduccion(double segundos) {
@@ -116,7 +116,7 @@ public class Cancion {
     }
     
     /**
-     * Obtiene el tiempo actual de reproducción en segundos.
+     * Obtiene el tiempo actual de reproduccion en segundos.
      * @return Tiempo actual en segundos
      */
     public double getTiempoActual() {
@@ -127,8 +127,8 @@ public class Cancion {
     }
     
     /**
-     * Obtiene la duración total de la canción en segundos.
-     * @return Duración total en segundos
+     * Obtiene la duracion total de la cancion en segundos.
+     * @return Duracion total en segundos
      */
     public double getDuracionTotal() {
         if (mediaPlayer != null) {

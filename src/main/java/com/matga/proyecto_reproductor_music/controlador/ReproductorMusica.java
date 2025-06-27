@@ -7,8 +7,8 @@ import com.matga.proyecto_reproductor_music.modelo.Cancion;
 import java.io.File;
 
 /**
- * Controlador para la reproducción de audio.
- * Maneja la reproducción, pausa, detención y control de volumen de las canciones.
+ * Controlador para la reproduccion de audio.
+ * Maneja la reproduccion, pausa, detencion y control de volumen de las canciones.
  */
 public class ReproductorMusica {
     private MediaPlayer mediaPlayer;
@@ -17,8 +17,8 @@ public class ReproductorMusica {
     private double volumen = 0.7; // Volumen por defecto (70%)
 
     /**
-     * Carga una canción para reproducir.
-     * @param cancion La canción a cargar
+     * Carga una cancion para reproducir.
+     * @param cancion La cancion a cargar
      */
     public void cargarCancion(Cancion cancion) {
         if (cancion == null || cancion.getRutaArchivo() == null) {
@@ -55,7 +55,7 @@ public class ReproductorMusica {
     }
 
     /**
-     * Alterna entre reproducir y pausar la canción actual.
+     * Alterna entre reproducir y pausar la cancion actual.
      */
     public void playPause() {
         if (mediaPlayer == null) {
@@ -71,7 +71,7 @@ public class ReproductorMusica {
     }
 
     /**
-     * Detiene la reproducción actual.
+     * Detiene la reproduccion actual.
      */
     public void detener() {
         if (mediaPlayer != null) {
@@ -82,7 +82,7 @@ public class ReproductorMusica {
 
     /**
      * Establece el volumen del reproductor.
-     * @param volumen Valor entre 0.0 (silencio) y 1.0 (volumen máximo)
+     * @param volumen Valor entre 0.0 (silencio) y 1.0 (volumen maximo)
      */
     public void setVolumen(double volumen) {
         this.volumen = Math.max(0.0, Math.min(1.0, volumen));
@@ -100,7 +100,7 @@ public class ReproductorMusica {
     }
 
     /**
-     * Obtiene el tiempo actual de reproducción en segundos.
+     * Obtiene el tiempo actual de reproduccion en segundos.
      * @return Tiempo actual en segundos
      */
     public double getTiempoActual() {
@@ -108,15 +108,15 @@ public class ReproductorMusica {
     }
 
     /**
-     * Obtiene la duración total de la canción actual en segundos.
-     * @return Duración total en segundos
+     * Obtiene la duracion total de la cancion actual en segundos.
+     * @return Duracion total en segundos
      */
     public double getDuracionTotal() {
         return mediaPlayer != null ? mediaPlayer.getTotalDuration().toSeconds() : 0;
     }
 
     /**
-     * Establece el tiempo de reproducción actual.
+     * Establece el tiempo de reproduccion actual.
      * @param segundos Tiempo en segundos al que se desea saltar
      */
     public void seek(double segundos) {
@@ -126,8 +126,8 @@ public class ReproductorMusica {
     }
 
     /**
-     * Establece una acción a ejecutar cuando termine la canción actual.
-     * @param action Acción a ejecutar
+     * Establece una accion a ejecutar cuando termine la cancion actual.
+     * @param action Accion a ejecutar
      */
     public void setOnEndOfMedia(Runnable action) {
         if (mediaPlayer != null) {
@@ -149,16 +149,16 @@ public class ReproductorMusica {
     }
 
     /**
-     * Obtiene la canción que se está reproduciendo actualmente.
-     * @return Canción actual o null si no hay ninguna
+     * Obtiene la cancion que se esta reproduciendo actualmente.
+     * @return Cancion actual o null si no hay ninguna
      */
     public Cancion getCancionActual() {
         return cancionActual;
     }
 
     /**
-     * Verifica si hay una canción reproduciéndose actualmente.
-     * @return true si hay una canción en reproducción, false en caso contrario
+     * Verifica si hay una cancion reproduciendose actualmente.
+     * @return true si hay una cancion en reproduccion, false en caso contrario
      */
     public boolean isReproduciendo() {
         return reproduciendo;

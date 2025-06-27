@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * JavaFX App
+ * Aplicacion JavaFX
  */
 public class App extends Application {
 
@@ -23,7 +23,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Check for music directory
+        // Verificar directorio de musica
         checkMusicDirectory();
         
         scene = new Scene(loadFXML("modern"), 860, 640);
@@ -38,7 +38,7 @@ public class App extends Application {
             String userDir = System.getProperty("user.dir");
             System.out.println("Current working directory: " + userDir);
             
-            // Check both with and without accent to handle encoding issues
+            // Comprobar con y sin acento para manejar problemas de codificacion
             String[] possibleDirNames = {"musica", "música"};
             boolean dirFound = false;
             
@@ -61,7 +61,7 @@ public class App extends Application {
             }
             
             if (!dirFound) {
-                // Create the directory if it doesn't exist
+                // Crear el directorio si no existe
                 Path musicDir = Paths.get(userDir, "musica");
                 System.out.println("Music directory not found. Creating: " + musicDir);
                 try {
