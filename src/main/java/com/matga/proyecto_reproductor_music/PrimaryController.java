@@ -5,9 +5,6 @@ import com.matga.proyecto_reproductor_music.modelo.Cancion;
 import com.matga.proyecto_reproductor_music.modelo.Playlist;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -21,6 +18,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -82,33 +80,59 @@ public class PrimaryController {
     private void initialize() {
         cargarCanciones();
         configurarEventos();
+        // Reproducir una canción aleatoria al iniciar si hay canciones
+        if (playlist != null && !playlist.estaVacia()) {
+            int total = playlist.getTotalCanciones();
+            int randomIndex = (int) (Math.random() * total);
+            playlistView.getSelectionModel().select(randomIndex);
+            reproducirCancion(randomIndex);
+        }
     }
     
     private void cargarCanciones() {
         try {
-            // Obtener la ruta a la carpeta music dentro de resources
-            URL musicUrl = getClass().getResource("/com/matga/proyecto_reproductor_music/music");
-            if (musicUrl != null) {
-                File musicDir = Paths.get(musicUrl.toURI()).toFile();
+            // Obtener la ruta al directorio del proyecto
+            String projectPath = System.getProperty("user.dir");
+            File musicDir = new File(projectPath, "musica");
+            
+            System.out.println("Buscando música en: " + musicDir.getAbsolutePath());
+            
+            if (musicDir.exists() && musicDir.isDirectory()) {
                 playlist = CargadorCanciones.cargarPlaylistDesdeCarpeta(musicDir.getAbsolutePath());
                 
                 // Actualizar la vista de la lista de reproducción
-                playlistView.getItems().clear();
-                // Agregar todas las canciones de la playlist al ListView
-                for (Cancion cancion : playlist) {
-                    playlistView.getItems().add(cancion);
-                }
-                
-                // Seleccionar la primera canción si existe
-                if (!playlist.estaVacia()) {
-                    playlistView.getSelectionModel().select(0);
-                    actualizarInfoCancion(playlist.getCancionActual());
-                }
+                Platform.runLater(() -> {
+                    playlistView.getItems().clear();
+                    for (Cancion cancion : playlist) {
+                        playlistView.getItems().add(cancion);
+                    }
+                    
+                    // Seleccionar la primera canción si existe
+                    if (!playlist.estaVacia()) {
+                        playlistView.getSelectionModel().select(0);
+                        actualizarInfoCancion(playlist.getCancionActual());
+                    }
+                });
             } else {
-                System.err.println("No se pudo encontrar la carpeta de música");
+                System.err.println("No se pudo encontrar la carpeta de música en: " + musicDir.getAbsolutePath());
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No se encontró la carpeta de música en: " + musicDir.getAbsolutePath() + 
+                                      "\nPor favor, crea una carpeta llamada 'musica' con archivos MP3.");
+                    alert.showAndWait();
+                });
             }
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Error al cargar las canciones: " + e.getMessage());
+                alert.showAndWait();
+            });
         }
     }
     
