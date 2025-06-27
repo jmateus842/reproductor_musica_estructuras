@@ -80,13 +80,7 @@ public class PrimaryController {
     private void initialize() {
         cargarCanciones();
         configurarEventos();
-        // Reproducir una canción aleatoria al iniciar si hay canciones
-        if (playlist != null && !playlist.estaVacia()) {
-            int total = playlist.getTotalCanciones();
-            int randomIndex = (int) (Math.random() * total);
-            playlistView.getSelectionModel().select(randomIndex);
-            reproducirCancion(randomIndex);
-        }
+        // No further initialization needed here as random song will be played in cargarCanciones()
     }
     
     private void cargarCanciones() {
@@ -107,10 +101,13 @@ public class PrimaryController {
                         playlistView.getItems().add(cancion);
                     }
                     
-                    // Seleccionar la primera canción si existe
+                    // Seleccionar y reproducir una canción aleatoria si existe
                     if (!playlist.estaVacia()) {
-                        playlistView.getSelectionModel().select(0);
-                        actualizarInfoCancion(playlist.getCancionActual());
+                        int total = playlist.getTotalCanciones();
+                        int randomIndex = (int) (Math.random() * total);
+                        playlistView.getSelectionModel().select(randomIndex);
+                        reproducirCancion(randomIndex);
+                        System.out.println("Reproduciendo canción aleatoria: " + randomIndex);
                     }
                 });
             } else {
